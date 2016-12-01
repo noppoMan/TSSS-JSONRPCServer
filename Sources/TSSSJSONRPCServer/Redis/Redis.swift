@@ -72,6 +72,10 @@ public final class Redis {
         }
     }
     
+    /**
+     * Take a free connection to query
+     * This method blocks the thread until a free connection is available
+     */
     fileprivate func getConnection(_ retry: Bool = false) -> RedisConnection {
         for p in pool {
             if p.inUse {
@@ -88,6 +92,9 @@ public final class Redis {
         return getConnection(true)
     }
     
+    /**
+     * issue command to Redis
+     */
     public func command(_ cmd: RedisCommand) throws -> [String] {
         cond.mutex.lock()
         defer {
@@ -96,6 +103,7 @@ public final class Redis {
         let con = getConnection()
         
         if con.isClosed {
+            con.release()
             throw RedisError.alreadyClosed
         }
         
