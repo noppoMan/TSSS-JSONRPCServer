@@ -14,6 +14,7 @@ public enum RedisError: Error {
     case connectionFailed
     case rawError(String)
     case alreadyClosed
+    case failedToGetConnectionFromPool
 }
 
 private final class RedisConnection {
@@ -76,7 +77,11 @@ public final class Redis {
      * Take a free connection to query
      * This method blocks the thread until a free connection is available
      */
-    fileprivate func getConnection(_ retry: Bool = false) -> RedisConnection {
+    fileprivate func getConnection(_ retryCount: Int = 0) throws -> RedisConnection {
+        if Double(retryCount) > (0.1*10)*5 {
+            throw RedisError.failedToGetConnectionFromPool
+        }
+        
         for p in pool {
             if p.inUse {
                 continue
@@ -89,7 +94,7 @@ public final class Redis {
         _ = cond.wait(timeout: 0.1)
         cond.mutex.unlock()
         
-        return getConnection(true)
+        return try getConnection(retryCount+1)
     }
     
     /**
@@ -100,7 +105,7 @@ public final class Redis {
         defer {
             cond.mutex.unlock()
         }
-        let con = getConnection()
+        let con = try getConnection()
         
         if con.isClosed {
             con.release()
