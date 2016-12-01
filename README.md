@@ -17,24 +17,27 @@ This is a tiny implementation of JSON RPC Server to be used in Tokyo Server Side
 ## Starting with Xcode
 
 ```sh
-brew install hiredis
-swift package generate-xcodeproj --type executable -Xlinker -L/usr/local/lib -Xcc -I/usr/local/include
-open *.xcodeproj
+$ brew install hiredis
+$ swift package generate-xcodeproj --type executable \
+  -Xlinker -L/usr/local/lib \
+  -Xcc -I/usr/local/include
+
+$ open *.xcodeproj
 ```
 
 ## Starting with CLI
 
 ### Build
 ```sh
-swift build
+$ swift build
 ```
 
 ### Start up the server
 ```sh
-./build/debug/TSSSJSONRPCServer
-# print("Server listening at 0.0.0.0:\(PORT)")
+$ ./build/debug/TSSSJSONRPCServer
+# Server listening at 0.0.0.0:3000
 ```
 
 ## LICENSE
 
-Prorsum is released under the MIT license. See LICENSE for details.
+TSSS-JSONRPCServer is released under the MIT license. See LICENSE for details.
