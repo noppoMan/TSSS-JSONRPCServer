@@ -7,7 +7,7 @@ This is a tiny implementation of JSON RPC Server to be used in Tokyo Server Side
 
 ## Features
 - [x] Minimal and fast
-- [x] Accept requests with nonblocking
+- [x] Event Driven master + multithreading request handlers Model(solving C10K)
 - [x] Go style Councurrent System (Powerded by [noppoMan/Prorsum](https://github.com/noppoMan/Prorsum))
 - [x] Thread Safe Redis Client
 - [x] Fully supporting [JSON-RPC 2.0](http://www.jsonrpc.org/specification) Parser/Serializer (Powerded by [noppoMan/SwiftyJSONRPC](https://github.com/noppoMan/SwiftyJSONRPC))
