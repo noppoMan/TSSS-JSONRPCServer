@@ -43,6 +43,18 @@ $ ./build/debug/TSSSJSONRPCServer
 - `redisPing(count: Int) -> [String]`: Issue Ping command to redis n(count) times
 - `plzLGTMImage -> [String: String]`: Take a LGTM Image URL from http://www.lgtm.in
 
+### Request Example
+```
+POST /jsonrpc HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+"\[
+  {\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"getWizards\"},
+  {\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"redisPing\", \"params\": 5},
+  {\"jsonrpc\": \"2.0\", \"id\": 3, \"method\": \"plzLGTMImage\"}
+]\"
+```
 
 ## LICENSE
 
