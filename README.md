@@ -38,6 +38,12 @@ $ ./build/debug/TSSSJSONRPCServer
 # Server listening at 0.0.0.0:3000
 ```
 
+### Functions
+- `getWizards -> [String]`: List Harry Potter's wizards
+- `redisPing(count: Int) -> [String]`: Issue Ping command to redis n(count) times
+- `plzLGTMImage -> [String: String]`: Take a LGTM Image URL from http://www.lgtm.in
+
+
 ## LICENSE
 
 TSSS-JSONRPCServer is released under the MIT license. See LICENSE for details.
