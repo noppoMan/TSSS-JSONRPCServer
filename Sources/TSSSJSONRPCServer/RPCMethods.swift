@@ -6,6 +6,8 @@
 //
 //
 
+import Foundation
+
 func getWizards() -> [String] {
     return [
         "Harry Potter",
@@ -51,5 +53,31 @@ func redisPing(_ tryCount: Int) -> [String] {
     }
     
     return results
+}
 
+func plzLGTMImage() throws  -> [String: String] {
+    
+    let client = try HTTPClient(url: URL(string: "http://www.lgtm.in/g")!)
+    try client.open()
+    let response = try client.request()
+    
+    let data = response.buffer!
+    let html = String(data: data, encoding: .utf8)!
+    
+    let regex = try! NSRegularExpression(pattern: "<meta name=\"twitter:image\" content=\"(.+)\"", options: [.caseInsensitive])
+    
+    if let match = regex.firstMatch(in: html, options: [], range: NSMakeRange(0, html.utf16.count)) {
+        for n in 0..<match.numberOfRanges {
+            if n == 0 {
+                continue
+            }
+            let range = match.rangeAt(n)
+            let start = html.index(html.startIndex, offsetBy: range.location)
+            let end = html.index(html.startIndex, offsetBy: range.location+range.length)
+            
+            return ["url": html.substring(with: start..<end)]
+        }
+    }
+    
+    return [:]
 }

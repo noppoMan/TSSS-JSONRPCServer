@@ -36,6 +36,13 @@ func jsonRPCResponder(_ request: Request) throws -> Response {
                     rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, error: JSONRPCV2Error.invalidParams))
                 }
                 
+            case "plzLGTMImage":
+                do {
+                    rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, result: JSON(try plzLGTMImage())))
+                } catch {
+                    rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, error: .serverError))
+                }
+                
             default:
                 rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, error: .methodNotFound))
             }
@@ -47,7 +54,7 @@ func jsonRPCResponder(_ request: Request) throws -> Response {
     return Response(with: rpcResponse)
 }
 
-func jsonParserMiddleware(_ request: Request) -> Request {
+func jsonParserMiddleware(request: Request) -> Request {
     var request = request
     if let cType = request.contentType {
         switch (cType.type, cType.subtype) {

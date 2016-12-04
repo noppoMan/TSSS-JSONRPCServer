@@ -10,6 +10,7 @@ import Foundation
 
 let PORT = UInt(ProcessInfo.processInfo.environment["PORT"] ?? "8080") ?? 8080
 
+// Connect redis with 10 connection pools
 let redis = try Redis(poolSize: 10)
 
 let server = try! HTTPServer { request, writer in
@@ -17,7 +18,7 @@ let server = try! HTTPServer { request, writer in
     
     do {
         // middleare section
-        request = jsonParserMiddleware(request)
+        request = jsonParserMiddleware(request: request)
         
         // dispatch routes
         var response = dispatch(request: request)
@@ -28,10 +29,12 @@ let server = try! HTTPServer { request, writer in
             response.headers["Content-Type"] = "application/json"
         }
         
-        let serializer = ResponseSerializer(stream: writer)
-        try serializer.serialize(response,  deadline: 0)
+        try writer.serialize(response)
         
         writer.close()
+        
+        let method = "\(request.method)".uppercased()
+        print("\(method) \(request.path ?? "/") \(response.statusCode)") //access log
     } catch {
         writer.close()
     }
