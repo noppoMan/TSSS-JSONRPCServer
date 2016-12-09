@@ -7,7 +7,7 @@ This is a tiny implementation of JSON RPC Server to be used in Tokyo Server Side
 
 ## Features
 - [x] Minimal and fast
-- [x] Accept requests with nonblocking
+- [x] Event Driven master + multithreading request handlers Model(solving C10K)
 - [x] Go style Councurrent System (Powerded by [noppoMan/Prorsum](https://github.com/noppoMan/Prorsum))
 - [x] Thread Safe Redis Client
 - [x] Fully supporting [JSON-RPC 2.0](http://www.jsonrpc.org/specification) Parser/Serializer (Powerded by [noppoMan/SwiftyJSONRPC](https://github.com/noppoMan/SwiftyJSONRPC))
@@ -36,6 +36,24 @@ $ swift build
 ```sh
 $ ./build/debug/TSSSJSONRPCServer
 # Server listening at 0.0.0.0:3000
+```
+
+### Functions
+- `getWizards -> [String]`: List Harry Potter's wizards
+- `redisPing(count: Int) -> [String]`: Issue Ping command to redis n(count) times
+- `plzLGTMImage -> [String: String]`: Take a LGTM Image URL from http://www.lgtm.in
+
+### Request Example
+```
+POST /jsonrpc HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+
+"\[
+  {\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"getWizards\"},
+  {\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"redisPing\", \"params\": 5},
+  {\"jsonrpc\": \"2.0\", \"id\": 3, \"method\": \"plzLGTMImage\"}
+]\"
 ```
 
 ## LICENSE
