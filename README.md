@@ -41,7 +41,7 @@ $ ./build/debug/TSSSJSONRPCServer
 ### Functions
 - `getWizards -> [String]`: List Harry Potter's wizards
 - `redisPing(count: Int) -> [String]`: Issue Ping command to redis n(count) times
-- `plzLGTMImage -> [String: String]`: Take a LGTM Image URL from http://www.lgtm.in
+- `plzXmasImage -> [String: String]`: Take a animated Image URL that relates to Xmas from http://www.lgtm.in
 
 ### Request Example
 ```
@@ -52,7 +52,7 @@ Content-Type: application/json
 "\[
   {\"jsonrpc\": \"2.0\", \"id\": 1, \"method\": \"getWizards\"},
   {\"jsonrpc\": \"2.0\", \"id\": 2, \"method\": \"redisPing\", \"params\": 5},
-  {\"jsonrpc\": \"2.0\", \"id\": 3, \"method\": \"plzLGTMImage\"}
+  {\"jsonrpc\": \"2.0\", \"id\": 3, \"method\": \"plzXmasImage\"}
 ]\"
 ```
 
