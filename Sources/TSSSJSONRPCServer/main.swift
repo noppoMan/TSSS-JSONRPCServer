@@ -43,3 +43,5 @@ let server = try! HTTPServer { request, writer in
 try! server.bind(host: "0.0.0.0", port: PORT)
 print("Server listening at 0.0.0.0:\(PORT)")
 try! server.listen()
+
+RunLoop.main.run()

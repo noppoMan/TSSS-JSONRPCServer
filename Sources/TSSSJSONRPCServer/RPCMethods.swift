@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 func getWizards() -> [String] {
     return [
@@ -55,29 +56,21 @@ func redisPing(_ tryCount: Int) -> [String] {
     return results
 }
 
-func plzLGTMImage() throws  -> [String: String] {
+func plzXmasImage() throws  -> [String: String] {
     
-    let client = try HTTPClient(url: URL(string: "http://www.lgtm.in/g")!)
+    let client = try HTTPClient(url: URL(string: "https://api.gifly.jp/v1/searches?tags=xmas")!)
     try client.open()
     let response = try client.request()
     
-    let data = response.buffer!
-    let html = String(data: data, encoding: .utf8)!
-    
-    let regex = try! NSRegularExpression(pattern: "<meta name=\"twitter:image\" content=\"(.+)\"", options: [.caseInsensitive])
-    
-    if let match = regex.firstMatch(in: html, options: [], range: NSMakeRange(0, html.utf16.count)) {
-        for n in 0..<match.numberOfRanges {
-            if n == 0 {
-                continue
-            }
-            let range = match.rangeAt(n)
-            let start = html.index(html.startIndex, offsetBy: range.location)
-            let end = html.index(html.startIndex, offsetBy: range.location+range.length)
-            
-            return ["url": html.substring(with: start..<end)]
-        }
+    guard let data = response.buffer else {
+        return [:]
     }
     
-    return [:]
+    let json = JSON(data: data)
+    
+    guard let items = json["items"].array else {
+        return [:]
+    }
+    let index = Int(arc4random_uniform(UInt32(items.count)))
+    return ["url": items[index]["image"].stringValue]
 }

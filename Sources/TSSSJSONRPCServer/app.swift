@@ -36,10 +36,11 @@ func jsonRPCResponder(_ request: Request) throws -> Response {
                     rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, error: JSONRPCV2Error.invalidParams))
                 }
                 
-            case "plzLGTMImage":
+            case "plzXmasImage":
                 do {
-                    rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, result: JSON(try plzLGTMImage())))
+                    rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, result: JSON(try plzXmasImage())))
                 } catch {
+                    print(error)
                     rpcResponseItems.append(JSONRPCV2.ResponseItem(id: req.id, error: .serverError))
                 }
                 
